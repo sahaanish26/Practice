@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+// Given a Set of Integers , print all subsets
 public class SubSets {
     public static int numcalls;
     public static void main(String[] args) {
