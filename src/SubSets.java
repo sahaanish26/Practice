@@ -21,11 +21,11 @@ public class SubSets {
 
     }
 
-    private static void subListHelper(List<Integer> choices,List<Integer> choosen, List<List<Integer>> resultSets) {
+    private static void subListHelper(List<Integer> choices,List<Integer> chosen, List<List<Integer>> resultSets) {
 
         numcalls++;
         if (choices.isEmpty()) {
-            resultSets.add(new ArrayList<>(choosen));
+            resultSets.add(new ArrayList<>(chosen));
         } else {
             // choose
             // choice without taking the first element
@@ -33,18 +33,18 @@ public class SubSets {
             Integer firstChoice = choices.get(0);
             choices.remove(0);
             //explore
-            subListHelper(choices, choosen, resultSets);
+            subListHelper(choices, chosen, resultSets);
             //unchoose [ restore the choices]
             choices.add(0, firstChoice);
 
             //choose
             //choice with the first element
-            choosen.add(firstChoice);
+            chosen.add(firstChoice);
             choices.remove(0);
             //explore
-            subListHelper(choices, choosen, resultSets);
+            subListHelper(choices, chosen, resultSets);
             //unchoose [ restore the choices and choosen]
-            choosen.remove(choosen.size() - 1);
+            chosen.remove(chosen.size() - 1);
             choices.add(0, firstChoice);
         }
     }
