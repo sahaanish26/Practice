@@ -29,6 +29,7 @@ public class graphTopoSort {
         // System.out.println(resultSets);
 
         topologicalSort(graphArrays);
+        topologicalSortKahns(graphArrays);
         System.out.println("Final result" );
 
     }
@@ -57,12 +58,56 @@ public class graphTopoSort {
 
             //int node = mapGraph.ge
         }
-       System.out.println(nodestack);
+       System.out.println("topologicalSort"+nodestack);
         while (!nodestack.isEmpty()) {
             int node = nodestack.pop();
-            System.out.println(node);
+            System.out.println("topologicalSort"+node);
         }
     }
+
+    private static void topologicalSortKahns(int[][] graph) {
+
+        Map<Integer, List<Integer>> mapGraph = new HashMap<>();
+        Map<Integer, Integer> inDegreeGraph = new HashMap<>();
+
+        for (int i=0; i<graph.length; i++) {
+            int[] nodes =graph[i];
+            List<Integer> listNodes = new ArrayList<>();
+            for (int j=0; j<nodes.length; j++) {
+                listNodes.add(nodes[j]);
+            }
+            mapGraph.put(i, listNodes);
+            inDegreeGraph.put(i,0);
+        }
+        System.out.println(mapGraph);
+        System.out.println("initial inDegreeGraph"+inDegreeGraph);
+        Queue<Integer> zeroIndegreeQueue = new LinkedList<>();
+        List<Integer> sortedCourse = new ArrayList<>();
+
+        for (int i =0;i<mapGraph.size();i++){
+       List<Integer> neighbourNodes= mapGraph.get(i);
+       for (int j=0;j<neighbourNodes.size();j++){
+       if(inDegreeGraph.containsKey(neighbourNodes.get(j))){
+           int prevIndegreeCount = inDegreeGraph.get(neighbourNodes.get(j));
+           inDegreeGraph.put(neighbourNodes.get(j),prevIndegreeCount+1);
+       }
+       }
+        }
+        System.out.println("final inDegreeGraph"+inDegreeGraph);
+
+        inDegreeGraph.forEach((key, value) -> {
+                 if(value==0){
+                    zeroIndegreeQueue.add(key);
+                }
+            });
+        System.out.println("final zeroIndegreeQueue"+zeroIndegreeQueue);
+
+
+        topologicalSortKhansHelper(zeroIndegreeQueue,sortedCourse,inDegreeGraph,mapGraph);
+        System.out.println("final sortedCourse"+sortedCourse);
+
+    }
+
 
     private static void topologicalSortHelper(int currentNode,Stack<Integer> nodestack, Set<Integer> visited, Map<Integer, List<Integer>> mapGraph) {
 
@@ -77,4 +122,25 @@ public class graphTopoSort {
         //post order traversal so adding node at the end.
         nodestack.push(currentNode);
     }
+
+    private static void topologicalSortKhansHelper(Queue<Integer> zeroIndegreeQueue, List<Integer> sortedCourse, Map<Integer, Integer> inDegreeGraph, Map<Integer, List<Integer>> mapGraph) {
+
+   while (!zeroIndegreeQueue.isEmpty()) {
+       int currentNode = zeroIndegreeQueue.poll();
+       sortedCourse.add(currentNode);
+       List<Integer> neighbourNodes = mapGraph.get(currentNode);
+
+       for (int neighbour : neighbourNodes) {
+         int newIndegreeCount = inDegreeGraph.get(neighbour)-1;
+         if (newIndegreeCount == 0) {
+             zeroIndegreeQueue.add(neighbour);
+         }
+         inDegreeGraph.put(neighbour,newIndegreeCount);
+       }
+   }
+
+    }
+
+
+
 }
