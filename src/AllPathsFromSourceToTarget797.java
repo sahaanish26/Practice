@@ -9,21 +9,20 @@ public class AllPathsFromSourceToTarget797 {
         //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
         // to see how IntelliJ IDEA suggests fixing it.
         System.out.println("Hello and welcome!");
-        /*int[] intArray1 = new int[]{ 4,3,1};
+        int[] intArray1 = new int[]{ 4,3,1};
         int[] intArray2 = new int[]{ 3,2,4};
         int[] intArray3 = new int[]{ 3};
         int[] intArray4 = new int[]{ 4};
         int[] intArray5 = new int[]{ };
         int[][] graphArrays = { intArray1, intArray2, intArray3, intArray4, intArray5 };
-*/
 
-        int[] intArray1 = new int[]{ 1,2};
+      /*  int[] intArray1 = new int[]{ 1,2};
         int[] intArray2 = new int[]{ 3};
         int[] intArray3 = new int[]{ 3};
         int[] intArray4 = new int[]{ };
       //  int[] intArray5 = new int[]{ };
         int[][] graphArrays = { intArray1, intArray2, intArray3, intArray4 };
-
+*/
 
 
 
@@ -55,7 +54,8 @@ public class AllPathsFromSourceToTarget797 {
         return allPaths;
     }
 
-    private static void dfsHelper(int start, int target, List<Integer> chosenPath, List<List<Integer>> allPaths, Map<Integer, List<Integer>> mapGraph, Set<Integer> visited) {
+
+   /* private static void dfsHelper(int start, int target, List<Integer> chosenPath, List<List<Integer>> allPaths, Map<Integer, List<Integer>> mapGraph, Set<Integer> visited) {
        System.out.println("start"+start+" target"+target+"chosenPath"+chosenPath+"visited"+visited);
         visited.add(start);
         chosenPath.add(start);
@@ -63,16 +63,41 @@ public class AllPathsFromSourceToTarget797 {
             System.out.println("chosenPath"+chosenPath);
             allPaths.add(new ArrayList<>(chosenPath));
         }
-         else {
+
             // List<Integer> neighbourNodes = mapGraph.get(start);
             for (Integer neighbourNode : mapGraph.get(start)) {
                 //since the graph is acyclic and directed we can ignore the if not visited condition
                 //to get all paths. for a single path this condition can stay.
-              //  if (!visited.contains(neighbourNode)) {
+                if (!visited.contains(neighbourNode)) {
                     dfsHelper(neighbourNode, target, chosenPath, allPaths, mapGraph, visited);
-               // }
+                }
+            }
+
+        chosenPath.remove(chosenPath.size()-1);
+        visited.remove(start);
+    }
+*/
+
+    // this method solves for cyclic graph as well
+    private static void dfsHelper(int start, int target, List<Integer> chosenPath, List<List<Integer>> allPaths, Map<Integer, List<Integer>> mapGraph, Set<Integer> visited) {
+        System.out.println("start"+start+" target"+target+"chosenPath"+chosenPath+"visited"+visited);
+        visited.add(start);
+        chosenPath.add(start);
+        if(start == target) {
+            System.out.println("chosenPath"+chosenPath);
+            allPaths.add(new ArrayList<>(chosenPath));
+        }
+
+        // List<Integer> neighbourNodes = mapGraph.get(start);
+        for (Integer neighbourNode : mapGraph.get(start)) {
+             if (!visited.contains(neighbourNode)) {
+                dfsHelper(neighbourNode, target, chosenPath, allPaths, mapGraph, visited);
             }
         }
+
         chosenPath.remove(chosenPath.size()-1);
+
+        visited.remove(start);
     }
+
 }
