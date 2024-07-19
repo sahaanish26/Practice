@@ -112,9 +112,14 @@ public class Dijikstra {
                         System.out.println("if found");
                         nodePriorityQueue.remove(neighbor);
                     }*/
-                        nodePriorityQueue.add(neighbor);
+                        //this is worng , we should put the node with updated distance in the pq
+                       // nodePriorityQueue.add(neighbor);
                         //update the new short distance
                         distancetoThisNode.put(neighbor.get(0),distanceToNeighborNode);
+                        List<Integer> updatedNeighbourNode = new ArrayList();
+                        updatedNeighbourNode.add(neighbor.get(0));
+                        updatedNeighbourNode.add(distanceToNeighborNode);
+                        nodePriorityQueue.add(updatedNeighbourNode);
                     }
                 }
             }
