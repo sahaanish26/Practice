@@ -73,21 +73,62 @@ public class IsGraphBipartite785 {
             visited.add(node);
             List<Integer> listNodes = mapGraph.get(node);
             for(int i=0; i<listNodes.size(); i++) {
+                if(colorGraph.get(node).equalsIgnoreCase("Blue")) {
+                    if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral"))
+                    {colorGraph.put(listNodes.get(i), "Red");}
+
+                }
+                if(colorGraph.get(node).equalsIgnoreCase("Red")) {
+                    if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral")){
+                        colorGraph.put(listNodes.get(i), "Blue");
+                    }
+
+                }
+
                 if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase(colorGraph.get(node))  && !colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral") && !colorGraph.get(node).equalsIgnoreCase("Neutral")) {
                     return false;
                 }
                 if(!visited.contains(listNodes.get(i))) {
-                    if(colorGraph.get(node).equalsIgnoreCase("Blue")) {
-                        if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral"))
-                        {colorGraph.put(listNodes.get(i), "Red");}
 
-                    }
-                    if(colorGraph.get(node).equalsIgnoreCase("Red")) {
-                        if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral")){
-                            colorGraph.put(listNodes.get(i), "Blue");
-                        }
+                    queue.add(listNodes.get(i));
+                }
+            }
 
+            System.out.println(colorGraph);
+
+        }
+        return true;
+    }
+
+    //coloring before color check also works
+    private static boolean isBipartiteBfs1(int start, Map<Integer, List<Integer>> mapGraph, Set<Integer> visited, Map<Integer, String> colorGraph) {
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(start);
+        colorGraph.put(start,"Blue");
+        while(!queue.isEmpty()) {
+
+            int node = queue.poll();
+            visited.add(node);
+            List<Integer> listNodes = mapGraph.get(node);
+            for(int i=0; i<listNodes.size(); i++) {
+                if(colorGraph.get(node).equalsIgnoreCase("Blue")) {
+                    if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral"))
+                    {colorGraph.put(listNodes.get(i), "Red");}
+
+                }
+                if(colorGraph.get(node).equalsIgnoreCase("Red")) {
+                    if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral")){
+                        colorGraph.put(listNodes.get(i), "Blue");
                     }
+
+                }
+
+                if(colorGraph.get(listNodes.get(i)).equalsIgnoreCase(colorGraph.get(node))  && !colorGraph.get(listNodes.get(i)).equalsIgnoreCase("Neutral") && !colorGraph.get(node).equalsIgnoreCase("Neutral")) {
+                    return false;
+                }
+                if(!visited.contains(listNodes.get(i))) {
+
                     queue.add(listNodes.get(i));
                 }
             }
