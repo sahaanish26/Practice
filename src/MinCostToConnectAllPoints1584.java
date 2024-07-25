@@ -50,24 +50,45 @@ public class MinCostToConnectAllPoints1584 {
                 list.add(reverseNode);
             }
         }
+      //  System.out.println("numberOfPoints"+numberOfPoints);
         // System.out.println(list.size());
-        for (int i = 0; i < list.size(); i++) {
+       /* for (int i = 0; i < list.size(); i++) {
             int[] point = list.get(i);
             // System.out.println(point[0] + " " + point[1] + " " + point[2]);
-        }
+        }*/
 
         Set<Integer> inMST = new HashSet<>();
         int minCost=0;
         PriorityQueue<int[]> minHeap = new PriorityQueue<>((a,b)->a[2]-b[2]);
         int[] firstRandomNode = list.get(0);
         inMST.add(firstRandomNode[0]) ;
+        Map<Integer,List<int[]>> allEdgeMap = new HashMap<>();
         for (int i = 0; i < list.size(); i++) {
             int[] point = list.get(i);
+            if(!allEdgeMap.containsKey(point[0])){
+                List<int[]> edges = new ArrayList<>();
+                edges.add(point);
+                allEdgeMap.put(point[0],edges);
+            }else{
+                List<int[]> edges = allEdgeMap.get(point[0]);
+                edges.add(point);
+            } ;
             //put all neighbours of first chosen random node in heap
             if(firstRandomNode[0]==point[0]){
                 minHeap.add(point);
             }
         }
+        /* System.out.println("allEdgeMap size "+allEdgeMap.size());
+        System.out.println("allEdgeMap  "+allEdgeMap);
+        for (int i = 0; i < allEdgeMap.size(); i++) {
+            List<int[]> edges = allEdgeMap.get(i);
+            System.out.println("allEdgeMap i "+i);
+            for (int j = 0; j < edges.size(); j++) {
+                int[] point = edges.get(j);
+                System.out.println(point[0]+"+"+point[1]+"+"+point[2]);
+            }
+        }*/
+
 
         // System.out.println("minHeap with neighbours of first node "+minHeap.size());
 
@@ -85,12 +106,18 @@ public class MinCostToConnectAllPoints1584 {
                 // System.out.println("minCostNode"+minCostNode[0] + " *" + minCostNode[1] + " *" + minCostNode[2]);
                 // System.out.println("mminCost "+minCost);
                 // put all neighbours of chosen endNode in heap
-                for(int i = 0; i < list.size(); i++){
+               /* for(int i = 0; i < list.size(); i++){
                     int[] node = list.get(i);
                     if(minCostNode[1]==node[0] ){
                       minHeap.add(node);
                     }
-                }
+                }*/
+               //instead of iterating through a list , taking the neighbour from a map.
+                List<int[]> allNeighbourEdges = allEdgeMap.get(minCostNode[1]);
+               // System.out.println("allNeighbourEdges  "+allNeighbourEdges);
+
+                minHeap.addAll(allNeighbourEdges);
+
             }
             else{
                 minHeap.poll();
