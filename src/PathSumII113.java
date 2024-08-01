@@ -67,6 +67,40 @@ public class PathSumII113 {
     }
 
 
+    public boolean   pathSumHelperBoolean(TreeNode root, List<Integer> chosenPath, List<List<Integer>> res, int targetSum) {
+
+
+
+        chosenPath.add(root.val);
+
+        if (targetSum==root.val && root.left == null && root.right == null) {
+            res.add(new ArrayList<>(chosenPath));
+            return true;
+        }
+
+
+        // for (TreeNode neighbour : neighbours) {
+        if (root.left != null) {
+           boolean result1= pathSumHelperBoolean(root.left,chosenPath,res,targetSum-root.val);
+           if (result1) {
+               return true;
+           }
+        }
+        if (root.right != null) {
+            boolean result2 = pathSumHelperBoolean(root.right,chosenPath,res,targetSum-root.val);
+            if (result2) {
+                return true;
+            }
+        }
+
+
+
+        // }
+
+        chosenPath.remove(chosenPath.size() - 1);
+        return false;
+
+    }
 
 }
 
