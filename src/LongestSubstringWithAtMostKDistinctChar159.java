@@ -21,6 +21,7 @@ public class LongestSubstringWithAtMostKDistinctChar159{
      int rightP=0;
      Map<Character,Integer> characterCountMap = new HashMap<>();
      int max = Integer.MIN_VALUE;
+     // int count =0;   
 
      while(rightP<s.length()){
 
@@ -41,6 +42,10 @@ public class LongestSubstringWithAtMostKDistinctChar159{
 
         }
         max = Math.max(max,rightP-leftP);
+
+         // count of all windows/subarray meeting the condition.[count of subarrays WithAtMostKDistinctChar]
+        // count = count + rightP-leftP
+       
        
 
      }
