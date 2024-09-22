@@ -28,7 +28,8 @@ public class LongestSubstringWithAtMostKDistinctChar159{
         characterCountMap.put(cRightP,characterCountMap.getOrDefault(cRightP,0)+1);
     
         rightP++;
-
+       //Increase the window until invalid [for longest].
+       //start inner while loop after the condition is violated
         while(characterCountMap.size()>K){
             Character cLeftP = s.charAt(leftP);
             characterCountMap.put(cLeftP,characterCountMap.getOrDefault(cLeftP, 0)-1);
