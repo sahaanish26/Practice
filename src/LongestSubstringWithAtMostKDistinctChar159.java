@@ -68,9 +68,11 @@ public class LongestSubstringWithAtMostKDistinctChar159{
            characterCountMap.put(cRightP,characterCountMap.getOrDefault(cRightP,0)+1);
        
            rightP++;
-   
+           //Increase the window strictly till valid [ for shortest] but never beyond valid. start inner while loop the moment
+           //when valid window is found.
            while(characterCountMap.size()<=2 &&  characterCountMap.size()!=0 ){
             System.out.println("leftP "  +leftP+"rightP "+ rightP);
+               // min is found within inner loop always
                min = Math.min(min, rightP-leftP);
                System.out.println("min " +min);
                Character cLeftP = s.charAt(leftP);
